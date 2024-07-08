@@ -1,0 +1,104 @@
+system:
+Given methodology data, objectives data, introduction_data, You have to generate methodology section for project report, Keep in mind following instructions:
+
+You need to list the methodology of achieving the set objectives, in this section, ie how you plan to achieve the objectives, what steps you will take, what tools you will use, what data you will collect, what analysis you will perform, etc.
+This is detailed analysis of how you plan to achieve the objectives, so be as detailed as possible, but also concise, Some common things to include could be (just examples, not exhaustive):
+1. Project planning, requirements analysis and gathering, design, implementation, testing, deployment, maintenance, etc.
+2. Software development methodology (Agile, Waterfall, etc), explaining about them and its concepts.
+3. Project management tools (Jira, Trello, etc) and how you plan to use them.
+4. Programming languages, frameworks, libraries, techstacks like frontend, backend, database, mobile, etc.
+5. Testing including unit testing, integration testing, system testing, etc, White box and black box testing, etc.
+6. Additional tools like version control (Git, SVN, etc), CI/CD tools, etc.
+
+To assist you in generating the methodology section, and generating correct response, an additional context can be provided, which will have meaning/explanation
+of top keywords in the methodology data, which can be used to generate the response, The context will be in the form of dictionary where key is the keyword and
+value is explanation data and relevant sources for the keyword. (as it is searched from the internet), Please make sure to cite the sources properly in the output.
+
+The output should be latex code with proper sections and subsections with bullet points, all the code will be written after a chapter named "Methodology", Focus on generating the content in the form of bullet points, subsections, etc, to make it more readable and structured.
+
+It doesn't matter if you hallucinate, just generate as much text as you can with the given data, and make sure to include all the important points, and make sure to include the context data in the output, to make the response more informative and structured.
+Do not hallucinate images if not provided,
+
+Also attach any images provided, in the output (using proper latex code), The provided images will be in the form of list of tuples, where first
+element of the tuple is the image location/path and second element is the image description, Use description to refer to the image in the text and generate texts/response accordingly.
+
+Latex code format to add image:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{<image_path>}
+    \label{fig:<image_label>}
+\end{figure}
+
+To refer to the image in the text: \ref{fig:<image_label>}, Please do not add images if not provided in the input, DO NOT HALLUCINATE IMAGES
+
+While generating texts, also generate relevant citations, please use latex format /cite{citation_key} for the same, Aim to generate at least 5 citations in the text.
+Please make sure citation_key do not contain space or special characters and can explain the citation properly (for example agile_methodology, scrum_framework, xyz_company_wiki, nodejs_website, etc.)
+
+Example 1:
+\section{<section title>}
+<section small description>
+
+\subsection{<subsection title>}
+<subsection description>
+
+\subsection{<subsection title>}
+<subsection description>
+
+\section{Software development Processes}
+<Software development processes used, like scrumm/Waterfall etc>
+
+\subsection{What is <process_name>}
+<description of the process>
+
+\subsection{Different actors in <process_name>}
+\itemize
+    \item <actor1>: <description>
+    \item <actor2>: <description>
+    \item <actor3>: <description>
+<description of different actors in the process>
+
+\subsection{How <process_name> works}
+<description of how the process works>
+
+\section{Planning and Project Management Tools}
+<explain what project management tools are used and what they do, like Jira, Trello etc>
+
+\subsection{<tool_name>}
+<description of the tool>
+
+\subsection{<tool_name>}
+<description of the tool>
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{<image_path>}
+    \label{fig:<image_label>}
+\end{figure}
+
+\section{Implementation and Techstack}
+<explain what techstack is used, like frontend, backend, database, mobile etc>
+
+\subsection{Frontend}
+<description of frontend techstack, including what tools are used>
+
+\section{Testing}
+<explain what testing is done, like unit testing, integration testing, system testing etc>
+
+\subsection{Unit Testing}
+<explanation of unit testing>
+
+\subsection{Integration Testing}
+<explanation of integration testing>
+
+\subsection{System Testing}
+<explanation of system testing>
+
+\section{Additional Tools}
+<explain what additional tools are used, like version control, CI/CD tools etc>
+
+user:
+Objective data is: {{objective_input}}
+introduction data is: {{introduction_input}}
+methodology iamges are: {{methodology_images}}
+methodology data is: {{methodology_input}}
+additional context: {{keywords_context}}

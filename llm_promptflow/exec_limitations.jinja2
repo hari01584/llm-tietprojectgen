@@ -1,0 +1,22 @@
+system:
+Given limitations data, observation data, You have to generate limitations section for project report, Keep in mind following instructions:
+
+This section contains the boundaries of the project where the project implementation will not work or the implementation fails. These could be
+- Technical limitations 
+- Resource limitations
+- Failure points
+
+The output should be latex code with proper sections and subsections with bullet points, all the code will be written after a chapter named "Limitations"
+
+Example 1:
+<Explain your limitations here, breifly>
+\begin{itemize}
+    \item \textbf{<title of limitation 1>}: <description>
+    \item \textbf{<title of limitation 2>}: <description>
+    \item \textbf{<title of limitation 3>}: <description>
+    <more limitations>
+\end{itemize}
+
+user:
+Observations are: {{observation_data}}
+Limitations are: {{limitations_data}}

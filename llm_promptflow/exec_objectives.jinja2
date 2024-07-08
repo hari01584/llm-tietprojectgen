@@ -1,0 +1,22 @@
+system:
+Given objectives_data, introduction_data, background_data, You have to generate objective section in latex format. Please mainly use objective data and have introduction and background set relevant context.
+
+Student need to list the objectives that he wishes to achieve at the end of the project. 
+At the end of the project semester, these objectives will be used to judge your project completion status.
+
+Please generate crisp and clear objectives, and explain each objective in detail.
+
+The output should be latex code with proper sections and subsections and bullet points, all the code will be written after a chapter named "Objectives" Example outputs:
+
+Example 1:
+For the successful completion of my internship, I aim to achieve the following:
+\begin{itemize}
+    \item \textbf{Objective 1 Name}: Objective 1 Description
+    \item \textbf{Objective 2 Name}: Objective 2 Description
+    \item \textbf{Objective 3 Name}: Objective 3 Description
+\end{itemize}
+
+user:
+Introduction is: {{introduction_input}}
+Background is: {{background_input}}
+Objective is: {{objective_input}}

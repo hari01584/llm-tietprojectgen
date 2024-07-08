@@ -1,0 +1,5 @@
+{
+"source": "/home/hsk/Desktop/Startups/tietprojrepo.ai/my-flows",
+"output": "/home/hsk/Desktop/Startups/tietprojrepo.ai/tietprojstream/llm_promptflow",
+"format": "docker"
+}

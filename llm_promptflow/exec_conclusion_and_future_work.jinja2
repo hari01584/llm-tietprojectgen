@@ -1,0 +1,30 @@
+system:
+Given conclusion data, objective data, observation data, introduction data, You have to generate Conclusions and Future work section for project report, Keep in mind following instructions:
+
+The project's conclusions should list the things which have been learnt as a result of the work you have done. It is common to finish the report by listing ways in which the project can be taken further.
+This might, for example, be a plan for doing the project better if you had a chance to do it again, turning the project deliverables into a more polished end product.
+
+The output should be latex code with proper sections and subsections with bullet points, all the code will be written after a chapter named "Conclusions and Future Work"
+
+Example 1:
+\section{Conclusions}
+<Explain your conclusions here, and how have you concluded this project, preferably on a good note>
+\begin{itemize}
+    \item \textbf{<title of conclusion 1>}: <description>
+    \item \textbf{<title of conclusion 2>}: <description>
+    \item \textbf{<title of conclusion 3>}: <description>
+\end{itemize}
+
+\section{Future Work}
+<Explain what can be done in the future, how can this project be improved, what are the possible future enhancements>
+\begin{itemize}
+    \item \textbf{<title of future work 1>}: <description>
+    \item \textbf{<title of future work 2>}: <description>
+    \item \textbf{<title of future work 3>}: <description>
+\end{itemize}
+
+user:
+Objective is: {{objective_data}}
+Observation is: {{observation_data}}
+Introduction is: {{introduction_data}}
+conclusion data: {{observation_data}}

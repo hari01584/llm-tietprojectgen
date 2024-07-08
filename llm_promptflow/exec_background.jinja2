@@ -1,0 +1,38 @@
+system:
+Given introduction_data, background_data, You have to generate background section for project report, Keep in mind following instructions:
+
+The background section of the report should set the project into context and give the proposed layout for achieving the project goals.
+The background section can be included as part of the introduction but is usually better as a separate chapter, especially if the project involved significant amount of ground work.
+When referring to other pieces of work, cite the sources where they are referred to or used, rather than just listing them at the end.
+Candidate should also list the motivation behind choosing this project.
+
+The output should be latex code with proper sections and subsections and bullet points, all the code will be written after a chapter named "Background"
+
+Please only attach images if provided through Background images, in the output (using proper latex code), The provided images will be in the form of list of tuples, where first
+element of the tuple is the image location/path and second element is the image description, Use description to refer to the image in the text.
+
+Latex code format to add image:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{<image_path>}
+    \label{fig:<image_label>}
+\end{figure}
+
+To refer to the image in the text: \ref{fig:<image_label>}, Please do not add images if not provided in the input, DO NOT HALLUCINATE IMAGES
+
+While generating texts, also generate relevant citations, please use latex format /cite{citation_key} for the same, Aim to generate at least 5 citations in the text.
+Please make sure citation_key do not contain space or special characters and can explain the citation properly (for example agile_methodology, scrum_framework, xyz_company_wiki, nodejs_website, etc.)
+
+Please do not over generate results with more sections/subsections than necessary, We already have Introduction, Objective, Methodology, Observation/Limitations, Conclusion/Future Work.
+
+Example 1:
+\section{Introduction}
+<Introduce the problem in details, setting stage for background>
+
+\section{Motivation}
+<Mention any motivation for this project, how you are aligned and excited to work on it>
+
+user:
+Introduction is: {{introduction_input}}
+Background images are: {{background_images}}
+Background is: {{background_input}}

@@ -1,0 +1,24 @@
+services:
+  app:
+    build: ./
+    command: streamlit run /app/⭐-Introduction.py --server.port 8501
+    volumes:
+        - ./:/app
+    ports:
+        - 8501:8501
+    environment:
+      - DB_USER=user
+      - DB_PWD=S3cret
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=maindb
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app

@@ -1,0 +1,369 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  company_profile:
+    type: string
+    default: Neurotask AI, We are a company that develops LLM solutions for daily
+      occurring problem, My work there is as backend engineer and prompt
+      engineer,
+  introduction_input:
+    type: string
+    default: I use latest tools like promptflow, semantic-kernel etc to create
+      pipelines at scale, We make magical products, One such product where I am
+      currently working is called Smart Search, It is the mix of latest
+      techniques in traditional search to make more human way of searching. Also
+      showing sample pipeline, As you can see and our demo is closely related
+  introduction_images:
+    type: list
+    default:
+    - - introduction_images_0.jpeg
+      - Sample pipeline for promptflow
+    - - introduction_images_1.png
+      - Our demo search product, It recommends products while also telling why
+  background_input:
+    type: string
+    default: Currently a lot of tasks are difficult, especially the one needing
+      human language understanding, With the latest era of LLMs there are now
+      easier than ever! With our product we wish to create impact exploiting
+      this specific feature. My motivation to work is from a long time tinkering
+      with programs and wanting them to understand user intent, I am fascinated
+      by the scope and potential of same
+  background_images:
+    type: list
+    default: []
+  objectives_input:
+    type: string
+    default: I aim to create and complete search smart app, which include setting up
+      promptflow pipeline, adding semantic-kernel, creating basic frontend and
+      finally apis using FastAPI
+  methodology_input:
+    type: string
+    default: To complete this, We adopted daily standups and meetings, We started
+      from initial project planning then decided and expanded on problem, i was
+      tasked to write promptflow code which I thouroughly studies
+      python/resources and looked into it, created code git/github then finall
+      used testing and ci/cd pipelines
+  methodology_images:
+    type: list
+    default:
+    - - methodology_images_0.png
+      - Scrum Meetings
+    - - methodology_images_1.png
+      - regular meetings
+  methodology_keywords:
+    type: list
+    default:
+    - scrumm
+    - promptflow
+    - streamlit
+  observation_findings_input:
+    type: string
+    default: I learned about importance of collaboration and teamwork. In hard
+      skills I am amazed by capability of LLMs and the tools like Promptflow,
+      which made the whole thing easier.
+  limitations_input:
+    type: string
+    default: Limitation could be lack of marketing or how advanced features are
+      still not there
+  conclusions_future_work_input:
+    type: string
+    default: In future, I'd like to explore more techniques/algorithms to optimize
+      our experience. In short our venture was huge success and it had lots of
+      learnings for me
+outputs:
+  introduction_generated:
+    type: string
+    reference: ${filter_correct_introduction.output}
+  company_profile_generated:
+    type: string
+    reference: ${filter_correct_company_profile.output}
+  bibliography:
+    type: string
+    reference: ${bibtex_extractor.output}
+  background_generated:
+    type: string
+    reference: ${filter_correct_background.output}
+  objectives_generated:
+    type: string
+    reference: ${filter_correct_objective.output}
+  methodology_generated:
+    type: string
+    reference: ${filter_correct_methodology.output}
+  observations_generated:
+    type: string
+    reference: ${filter_correct_observations.output}
+  limitations_generated:
+    type: string
+    reference: ${filter_correct_limitations.output}
+  conclusions_generated:
+    type: string
+    reference: ${filter_correct_conclusions.output}
+  abstract_generated:
+    type: string
+    reference: ${filter_correct_abstract.output}
+nodes:
+- name: exec_query_formation
+  type: llm
+  source:
+    type: code
+    path: exec_query_formation.jinja2
+  inputs:
+    max_tokens: 1024
+    response_format: '{"type":"text"}'
+    model: gpt-3.5-turbo-instruct
+    company_data: ${inputs.company_profile}
+    stop:
+    - <token>
+  connection: openai_connection
+  api: completion
+- name: search_duckduckgo
+  type: python
+  source:
+    type: code
+    path: search_duckduckgo.py
+  inputs:
+    query: ${exec_query_formation.output}
+- name: exec_final_summarize_extract_profile
+  type: llm
+  source:
+    type: code
+    path: final_summarize_extract_profile.jinja2
+  inputs:
+    stop: []
+    model: gpt-3.5-turbo-1106
+    max_tokens: 4096
+    response_format:
+      type: text
+    company_data: ${inputs.company_profile}
+    serp_results: ${search_duckduckgo.output}
+    temperature: 0.3
+  connection: openai_connection
+  api: chat
+- name: filter_correct_company_profile
+  type: python
+  source:
+    type: code
+    path: filter_correct_company_profile.py
+  inputs:
+    company_profile_llm_output: ${exec_final_summarize_extract_profile.output}
+- name: exec_introduction
+  type: llm
+  source:
+    type: code
+    path: exec_introduction.jinja2
+  inputs:
+    response_format:
+      type: text
+    max_tokens: 4096
+    company_data: ${inputs.company_profile}
+    introduction_input: ${inputs.introduction_input}
+    temperature: 0.3
+    model: gpt-3.5-turbo-16k
+    introduction_images: ${inputs.introduction_images}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_introduction
+  type: python
+  source:
+    type: code
+    path: filter_correct_introduction.py
+  inputs:
+    introduction_output: ${exec_introduction.output}
+- name: exec_background
+  type: llm
+  source:
+    type: code
+    path: exec_background.jinja2
+  inputs:
+    temperature: 0.3
+    model: gpt-3.5-turbo-16k
+    response_format:
+      type: text
+    max_tokens: 4096
+    introduction_input: ${inputs.introduction_input}
+    background_input: ${inputs.background_input}
+    background_images: ${inputs.background_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_background
+  type: python
+  source:
+    type: code
+    path: filter_correct_background.py
+  inputs:
+    llm_output: ${exec_background.output}
+- name: exec_objectives
+  type: llm
+  source:
+    type: code
+    path: exec_objectives.jinja2
+  inputs:
+    model: gpt-3.5-turbo-16k
+    temperature: 0.3
+    max_tokens: 4096
+    response_format:
+      type: text
+    introduction_input: ${inputs.introduction_input}
+    background_input: ${inputs.background_input}
+    objective_input: ${inputs.objectives_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_objective
+  type: python
+  source:
+    type: code
+    path: filter_correct_objective.py
+  inputs:
+    llm_output: ${exec_objectives.output}
+- name: enrich_tags_methodology
+  type: python
+  source:
+    type: code
+    path: enrich_tags_methodology.py
+  inputs:
+    tags: ${inputs.methodology_keywords}
+- name: exec_methodology
+  type: llm
+  source:
+    type: code
+    path: exec_methodology.jinja2
+  inputs:
+    response_format:
+      type: text
+    objective_input: ${inputs.objectives_input}
+    introduction_input: ${inputs.introduction_input}
+    methodology_images: ${inputs.methodology_images}
+    methodology_input: ${inputs.methodology_input}
+    keywords_context: ${enrich_tags_methodology.output}
+    temperature: 0.3
+    model: gpt-3.5-turbo-16k
+  connection: openai_connection
+  api: chat
+- name: filter_correct_methodology
+  type: python
+  source:
+    type: code
+    path: filter_correct_methodology.py
+  inputs:
+    llm_output: ${exec_methodology.output}
+- name: exec_observations_findings
+  type: llm
+  source:
+    type: code
+    path: exec_observations_findings.jinja2
+  inputs:
+    model: gpt-3.5-turbo-16k
+    temperature: 0.3
+    response_format:
+      type: text
+    background_input: ${inputs.background_input}
+    introduction_data: ${inputs.introduction_input}
+    objective_data: ${inputs.objectives_input}
+    observation_data: ${inputs.observation_findings_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_observations
+  type: python
+  source:
+    type: code
+    path: filter_correct_observations.py
+  inputs:
+    llm_output: ${exec_observations_findings.output}
+- name: exec_limitations
+  type: llm
+  source:
+    type: code
+    path: exec_limitations.jinja2
+  inputs:
+    model: gpt-3.5-turbo-16k
+    temperature: 0.3
+    response_format:
+      type: text
+    observation_data: ${inputs.observation_findings_input}
+    limitations_data: ${inputs.limitations_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_limitations
+  type: python
+  source:
+    type: code
+    path: filter_correct_limitations.py
+  inputs:
+    llm_output: ${exec_limitations.output}
+- name: exec_conclusion_and_future_work
+  type: llm
+  source:
+    type: code
+    path: exec_conclusion_and_future_work.jinja2
+  inputs:
+    temperature: 0.3
+    model: gpt-3.5-turbo-16k
+    response_format:
+      type: text
+    objective_data: ${inputs.objectives_input}
+    observation_data: ${inputs.observation_findings_input}
+    introduction_data: ${inputs.introduction_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_conclusions
+  type: python
+  source:
+    type: code
+    path: filter_correct_conclusions.py
+  inputs:
+    llm_output: ${exec_conclusion_and_future_work.output}
+- name: exec_abstract_generation
+  type: llm
+  source:
+    type: code
+    path: exec_abstract_generation.jinja2
+  inputs:
+    model: gpt-3.5-turbo-16k
+    temperature: 0.3
+    response_format:
+      type: text
+    introduction_data: ${inputs.introduction_input}
+    background_data: ${inputs.background_input}
+    objective_data: ${inputs.objectives_input}
+    conclusion_data: ${inputs.conclusions_future_work_input}
+  connection: openai_connection
+  api: chat
+- name: filter_correct_abstract
+  type: python
+  source:
+    type: code
+    path: filter_correct_abstract.py
+  inputs:
+    llm_output: ${exec_abstract_generation.output}
+- name: aggregate_biblography
+  type: python
+  source:
+    type: code
+    path: aggregate_biblography.py
+  inputs:
+    company_profile_llm_raw: ${exec_final_summarize_extract_profile.output}
+    background_llm_raw: ${exec_background.output}
+    methodology_llm_raw: ${exec_methodology.output}
+    introduction_llm_raw: ${exec_introduction.output}
+  aggregation: false
+- name: exec_biblography_augment
+  type: llm
+  source:
+    type: code
+    path: exec_biblography_augment.jinja2
+  inputs:
+    model: gpt-3.5-turbo-16k
+    temperature: 0.3
+    response_format:
+      type: text
+    citations_keys: ${aggregate_biblography.output}
+  connection: openai_connection
+  api: chat
+- name: bibtex_extractor
+  type: python
+  source:
+    type: code
+    path: bibtex_extractor.py
+  inputs:
+    llm_output: ${exec_biblography_augment.output}

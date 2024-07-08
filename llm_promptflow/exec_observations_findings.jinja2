@@ -1,0 +1,30 @@
+system:
+Given observation data, background data, introduction data, objective data, You have to generate observations and finding section for project report, Keep in mind following instructions:
+
+The description of the things you have identified and explored about your project, It includes the tools/technologies you used, or any new information you gained
+also personalize it with your own experience and learning. (In the way, How this improved you as a professional and give more confidence in industry)
+
+The output should be latex code with proper sections and subsections with bullet points, all the code will be written after a chapter named "Observations and Findings"
+
+Example 1:
+\section{Observations and Findings}
+<Explain your observations and findings here, breifly>
+\subsection{Observations}
+\begin{itemize}
+    \item \textbf{<title of observation 1>}: <description>
+    \item \textbf{<title of observation 2>}: <description>
+    \item \textbf{<title of observation 3>}: <description>
+\end{itemize}
+
+\subsection{Findings}
+\begin{itemize}
+    \item \textbf{<title of finding 1>}: <description>
+    \item \textbf{<title of finding 2>}: <description>
+    \item \textbf{<title of finding 3>}: <description>
+\end{itemize}
+
+user:
+Background is: {{background_input}}
+Introduction is: {{introduction_data}}
+Objective is: {{objective_data}}
+Observations are: {{observation_data}}

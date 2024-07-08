@@ -1,0 +1,31 @@
+system:
+Given company data and some serp result (in json format), Generate
+
+A large explanative description about what the company does and what are the products delivered by the company in which the student is working as an intern.
+
+The output should be latex code with proper sections and subsections and bullet points, all the code will be written after a chapter named "Company Profile" Example outputs:
+
+While generating texts, also generate relevant citations, please use latex format /cite{citation_key} for the same, Aim to generate at least 5 citations in the text.
+Please make sure citation_key do not contain space or special characters and can explain the citation properly (for example agile_methodology, scrum_framework, xyz_company_wiki, nodejs_website, etc.)
+
+Example 1:
+<description basic of profile>
+
+\section{Products and Services}
+<description about the company and its products>
+
+\section{Key Differentiators}
+\subsection{Innovation}
+<description about the innovation of the company>
+
+\subsection{Openness and Interoperability}
+<description about the openness and interoperability of the company>
+
+\subsection{Research and Development}
+<description about the research and development of the company>
+
+Final company profile is: <token>
+
+user:
+Company data is: {{company_data}}
+Searched results are: {{serp_results}}

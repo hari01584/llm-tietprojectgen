@@ -1,0 +1,6 @@
+promptflow==1.10.1
+promptflow-azure==1.10.1
+promptflow-core==1.10.1
+promptflow-devkit==1.10.1
+promptflow-tools==1.4.0
+promptflow-tracing==1.10.1

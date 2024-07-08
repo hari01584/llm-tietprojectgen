@@ -1,0 +1,397 @@
+{
+  "package": {},
+  "code": {
+    "exec_query_formation.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "company_data": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_query_formation.jinja2"
+    },
+    "search_duckduckgo.py": {
+      "type": "python",
+      "inputs": {
+        "query": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "search_duckduckgo.py",
+      "function": "search_and_scrape"
+    },
+    "final_summarize_extract_profile.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "company_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "serp_results": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "final_summarize_extract_profile.jinja2"
+    },
+    "filter_correct_company_profile.py": {
+      "type": "python",
+      "inputs": {
+        "company_profile_llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_company_profile.py",
+      "function": "correct_company_profile"
+    },
+    "exec_introduction.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "company_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_images": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_input": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_introduction.jinja2"
+    },
+    "filter_correct_introduction.py": {
+      "type": "python",
+      "inputs": {
+        "introduction_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_introduction.py",
+      "function": "correct_introduction"
+    },
+    "aggregate_biblography.py": {
+      "type": "python",
+      "inputs": {
+        "company_profile_llm_raw": {
+          "type": [
+            "string"
+          ]
+        },
+        "background_llm_raw": {
+          "type": [
+            "string"
+          ]
+        },
+        "methodology_llm_raw": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_llm_raw": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "aggregate_biblography.py",
+      "function": "aggregate_biblography"
+    },
+    "exec_background.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "introduction_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "background_images": {
+          "type": [
+            "string"
+          ]
+        },
+        "background_input": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_background.jinja2"
+    },
+    "filter_correct_background.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_background.py",
+      "function": "correct_background"
+    },
+    "exec_objectives.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "introduction_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "background_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "objective_input": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_objectives.jinja2"
+    },
+    "filter_correct_objective.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_objective.py",
+      "function": "correct_objectives"
+    },
+    "enrich_tags_methodology.py": {
+      "type": "python",
+      "inputs": {
+        "tags": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "enrich_tags_methodology.py",
+      "function": "enrich_all_keywords"
+    },
+    "exec_methodology.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "objective_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "methodology_images": {
+          "type": [
+            "string"
+          ]
+        },
+        "methodology_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "keywords_context": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_methodology.jinja2"
+    },
+    "filter_correct_methodology.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_methodology.py",
+      "function": "correct_methodology"
+    },
+    "exec_observations_findings.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "background_input": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "objective_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "observation_data": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_observations_findings.jinja2"
+    },
+    "filter_correct_observations.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_observations.py",
+      "function": "correct_observations"
+    },
+    "exec_limitations.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "observation_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "limitations_data": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_limitations.jinja2"
+    },
+    "filter_correct_limitations.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_limitations.py",
+      "function": "correct_limitations"
+    },
+    "exec_conclusion_and_future_work.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "objective_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "observation_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "introduction_data": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_conclusion_and_future_work.jinja2"
+    },
+    "filter_correct_conclusions.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_conclusions.py",
+      "function": "correct_conclusions"
+    },
+    "exec_abstract_generation.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "introduction_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "background_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "objective_data": {
+          "type": [
+            "string"
+          ]
+        },
+        "conclusion_data": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_abstract_generation.jinja2"
+    },
+    "filter_correct_abstract.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "filter_correct_abstract.py",
+      "function": "correct_abstract"
+    },
+    "exec_biblography_augment.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "citations_keys": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "exec_biblography_augment.jinja2"
+    },
+    "bibtex_extractor.py": {
+      "type": "python",
+      "inputs": {
+        "llm_output": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "bibtex_extractor.py",
+      "function": "my_python_tool"
+    }
+  }
+}

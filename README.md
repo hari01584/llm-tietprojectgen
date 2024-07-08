@@ -1,120 +1,99 @@
-# Streamlit x Flask x Stripe 🌶️
-Monetize your streamlit apps with Stripe and Flask
+# Thapar Project Report Generator
 
-<img width="1177" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/cd550810-59da-4af3-9ea8-3d676c03181c">
+Used to generate more than **100+ Reports** this is the source code of popular project hosted at https://tietprojgen.skullzbones.com.
 
-## Getting Started
+Uses Latex + OpenAI's GPT 3.5 + Streamlit to automatically generate your end semester projects!
 
-### Setting up the Db
-This is where your users will be stored:
-1. Create a postgres database
-2. Run the `utils/db_setup.sql` script to create the `users` table
+## What is this?
+This is a tool where you can automatically generate a project-report, If you don't know what it is then basically a big big report file with sections like Abstract, introduction, background, methodology, conclusions, bibliography.. etc
 
-### Setting up Stripe:
-1. Create a Stripe account
-2. Create a test product
-3. Grab the `price_id` from the product
+It works by having user input their project description (in big text-boxes), They will have to add lot's of information and this tool will use GPT's to augment/rewrite them formally and automatically typeset into a created latex format! The generate final pdf will be downloaded by the user, additionally it will also send raw latex files for manual editing to user (in case they want to tweak something)
 
-See more details here: [Accept Payments with Stripe Checkout](https://stripe.com/docs/checkout/quickstart)
+**This tool only supports end-semester project reports, but can easily be tweaked for other documents, like Capstone/thesis/etc**
 
-### Setting up the Environment
-Create a virtual environment and install the requirements:
-```sh
-virtualenv venv -p python3.10
-source venv/bin/activate
-pip install -r requirements.txt
+## Why?
+Students pursuing technical degree at Thapar University have this **project semester** where they have to intern at any institution/organization for 6 months and at the end *present their work* back to university! This work is usually presented in several medium like:
+- **Project Report** - A 25-50 page report detailing your work and accomplishment
+- **Poster** - A graphical A3 sheet diagrams to express your work in easy manner
+- **Video + Presentation** - To establish goodwill among faculty and live present your work back in university!
+
+It was in the months of June, when my intern was nearing an end and I knew I have to submit my work to university (that includes project report..)
+
+Now for the *lazy me* who believe *technology* is the *key*, Writing/Styling a 25 page word document was out of question (C'mon, **Who the hell even uses docs in this era, We have latex for that :/**)
+
+Plus this so called project report **needs to be formatted properly** (with fixed font sizes, margins, god-know-what styles), moreover I talked with my peers who mostly used GPTs to generate content and copy-paste into the given format.. Well when we were to use GPT's for the same, and just perform lot of manual work of typesetting, I though to myself
+
+Why cannot the **technology can do that for Us**?
+
+and guess what..? I was right, technology can do pretty much everything (just in the hands of jugaadu developer (and a lazy person)), Oh.. that's my profile, *sheesh*
+
+So what next? I put up my goggles, prepared myself for a weekend of all-nighter, put my phone on silent and ignored all the friends to develop this godly tool (Which is now open-sourced!)
+
+## Features
+- **Automatic Content Generator:** It uses GPT3.5 to automatically generate and typeset relevant content
+- **Proper formatting:** Generated report is always in proper format, with correct font-size/etc
+- **Mail to user:** Generated report raw files will always be mailed back to user, in case they want to tweak anything
+- **Interactive Frontend:**  Easy to use frontend with guidelines about mentioning all kind of inputs required with examples
+- **Login/Signup System:** Integrated with login/signup and basic account management
+- **Admin Panel:** Admin panel to view number of generated reports and short summary, while features like topping up user!
+- **Credit System:** Uses credit system to prevent abuse, user can buy/earn credits on this platform, fully functional with working transactions
+- **Referral System:** Integrated referral system to allow invite-only earnings of credit and promotion of tool
+- **Feedback System:** Integrated feedback so user can report/express themselves, all is logged and a copy is sent to original developer through email!
+- **Good Error Handling:** All errors are handled/reported, while generated report/logs are always sent back to user for proper debugging
+- **Privacy First:** No data about project/input text boxes are ever stored, everything is kept confidential and is sent back to user! Only basic information like project name, company name, etc are stored for usage logs
+- **HTTPS Enabled** Enabled HTTPS serving using nginx
+- **Easy deployments** Docker scripts for one click deployment
+
+## How it works?
+- Uses base/template latex format with placeholders for different sections
+- Uses promptflow/pipelined LLM's to generate different sections/text of report
+- Generated content are replaced back to template and is compiled against user data
+- All data, generated etc are mailed back to user
+- Uses streamlit to quickly prototype frontend
+- Simple Json database supports all user management and credit systems
+- Uses SMTP to mail all the required data
+
+## Installation
+
+**Prerequisite**
+- Install [latex](https://www.latex-project.org/get) (With medium-full package) to support compilation into pdf 
+- Get OpenAI API keys (supporting atleast 3.5 turbo) - [Read article here](https://medium.com/@VaibhavTechDev/get-the-openai-api-key-a-step-by-step-guide-2112690ebb86)
+- (Optional) Mail credentials in SMTP to support mail systems
+
+then:
+
+Clone this repository
+```
+$ git clone https://github.com/hari01584/llm-tietprojectgen
 ```
 
-### Setup Stripe Port Forwarding
-We need to setup port forwarding so that Stripe can send webhooks to our local machine.
-```sh
-# install stripe cli
-brew install stripe/stripe-cli/stripe
-
-# forward stripe webhooks to our local machine
-stripe listen --forward-to 127.0.0.1:5000/stripe_webhook
+Get into clone repository
 ```
-In the output from this grab the `endpoint_secret` and add it to your .env file.
-
-See more details here: [Fulfill orders with Stripe Checkout](https://stripe.com/docs/payments/checkout/fulfill-orders)
-
-### Set Environmental Variables
-
-Create a .env file in the root of the project and add the following variables:
-```sh
-# stripe variables
-STRIPE_API_KEY = sk_test_...
-STRIPE_ENDPOINT_SECRET = whsec_...
-
-# database variable
-DB_USER = ...
-DB_PWD = ...
-DB_HOST = ...
-DB_PORT = ...
-DB_NAME = ...
-
-# logging
-LOG_LEVEL=INFO
+$ cd llm-tietprojectgen
 ```
 
-### Launch the App Locally
-```sh
-source ./venv/bin/activate
-# running the streamlit app
-streamlit run 🏡Home.py
-# in a seperate terminal run the flask app (for webhooks)
-flask --app flask_app run
+Install required libraries/packages using pipelined
+```
+$ pip install -r requirements.txt
 ```
 
-### Now you can visit Your App at `http://localhost:8501`
-#### Click `Sign Up`:
-<img width="1005" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/00fecb9f-0813-45a4-9516-5dcc6587948c">
+Change API keys to what you have brought, they are located in files *llm_executor/call_promptflow.py* and *utils/func.py*, Locate the text and change them!
 
-#### And this will bring you to the Signup Page
-Enter your information and press signup:
-<img width="1011" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/5371e09d-39a3-4717-ae27-ac7f010f5daa">
+Finally run the project using
+```
+streamlit run /app/⭐-Introduction.py --server.port 8501
+```
 
-#### Then that will direct you to the Checkout Page
-On which you can use a test card (`424242...`) to purchase the product:
-<img width="1003" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/9ca1ae93-9843-4642-a826-7e2089ade9ca">
-(note it needs to be a test product that you created earlier to use the test card)
+or even better! Run all-in-one suite with SSL and Nginx supported using Docker:
+```
+docker compose up
+```
 
-#### Which will direct you to the Login Page
-Enter your information and click Login
-<img width="1007" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/0569361e-e0a0-468d-ba1b-c177f5ed8567">
+(Note: For docker and https enabled, please place your ssl keys into directory *nginx/*, with filename *fullchain.pem* and *privkey.pem*)
 
-#### And Voila 🪄
-You are logged in and can access Your App:
-<img width="1070" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/a64c3f9e-c198-4e01-a7c0-fb608b0a30b7">
+## Looking for Long Term Contributors
+As you can see, this is merely a proof-of-concept project with good success metrics, the code is dirty and our db is even just plain json files :), but with the recent traction and good feedback I saw from lot of friends, I believe this could be developed further into more refined platform for multiple type of reports/serving multiple universities!
 
-And you can also lookup your user in the database and see that they're status is updated to `1` because you successfully completed the stripe checkout process:
-<img width="1072" alt="image" src="https://github.com/parker84/streamlit-stripe-flask-example/assets/12496987/a5102742-db35-49b3-affb-2dfdfb98aaae">
+I merely setup a base, and to show what can be possible.. and therefore **I urge you to explore more use-cases and extend/renovate this project as you see fit**, This is just the starting point of many amazing applications we can have, So keep hacking into it :)
 
-
-
-## Understanding the Code
-
-### Authentication
-Our user authentication is loosely based on [streamlit-authenticator](https://github.com/mkhorasani/Streamlit-Authenticator) but we're writing users to a database instead of storing in a file. 
-
-See `utils/auth.py` for the authentication code.
-
-### Accepting Payments
-We will be using Stripe to accept payments. Stripe is a payment processing platform that allows you to accept payments and manage your business.
-
-Look at `get_create_checkout_session_url` in `utils/stripe.py` to see how we create a checkout session. 
-
-
-### Webhooks
-We need a way of verifying that the payment was successful. We can do this by using webhooks. 
-
-Webhooks are a way of sending a message from one application to another when something happens. In this case, we want stripe to send a message to our streamlit app when a payment is successful.
-
-See the `stripe_webhook` function in `flask_app.py` to see how we handle the webhook.
-
-## Helpful Resources
-- [Accepting Payments in Flask Using Stripe Checkout](https://www.youtube.com/watch?v=cC9jK3WntR8) (stripe webhooks at 22 minutes)
-  - [See Full Code Here](https://prettyprinted.com/l/ccJ)
-- [Accept Payments with Stripe Checkout](https://stripe.com/docs/checkout/quickstart)
-- [Fulfill orders with Stripe Checkout](https://stripe.com/docs/payments/checkout/fulfill-orders)
-# llm-tietprojectgen
+With that being said, I am always up to discussing more interesting stuff/exploring what more could be done! So you can hit me up anytime and expect a great conversation ;)

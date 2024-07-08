@@ -17,7 +17,7 @@ def generateVerificationCode():
 
 def send_project_generation_report(email: str, file_paths: list[str], status: str = "success", extra_message: str = ""):
     username = "no-reply-tietprojreport@skullzbones.com"
-    password = "GmDw$zl;:1K"
+    password = "<Secret>"
     smtp_server = "mail.skullzbones.com"
     port = 587  # For SSL
 
@@ -58,7 +58,7 @@ def send_project_generation_report(email: str, file_paths: list[str], status: st
 
 def send_user_feedback_email(all_data_dict: dict):
     username = "no-reply-tietprojreport@skullzbones.com"
-    password = "GmDw$zl;:1K"
+    password = "<Secret>"
     smtp_server = "mail.skullzbones.com"
     port = 587  # For SSL
 
@@ -112,7 +112,7 @@ def send_user_feedback_email(all_data_dict: dict):
 
 def send_verification_email(email, verification_code, hook_domain):
     username = "no-reply-tietprojreport@skullzbones.com"
-    password = "GmDw$zl;:1K"
+    password = "<Secret>"
     smtp_server = "mail.skullzbones.com"
     port = 587  # For SSL
 
